@@ -1,65 +1,37 @@
-use actix_prost_build::{ActixGenerator, GeneratorList};
-use prost_build::{Config, ServiceGenerator};
-use std::path::Path;
-
-// custom function to include custom generator
-fn compile(
-    protos: &[impl AsRef<Path>],
-    includes: &[impl AsRef<Path>],
-    generator: Box<dyn ServiceGenerator>,
-) -> Result<(), Box<dyn std::error::Error>> {
-    let mut config = Config::new();
-    config
-        .service_generator(generator)
-        .compile_well_known_types()
-        .protoc_arg("--openapiv2_out=swagger/")
-        .protoc_arg("--openapiv2_opt")
-        .protoc_arg("grpc_api_configuration=proto/api_config_http.yaml,output_format=yaml,allow_merge=true,merge_file_name=bens,json_names_for_fields=false")
-        .bytes(["."])
-        .btree_map(["."])
-        .type_attribute(".", "#[actix_prost_macros::serde(rename_all=\"snake_case\")]")
-        .field_attribute(
-            ".blockscout.bens.v1.GetDomainRequest.only_active",
-            "#[serde(default)]"
-        )
-        .field_attribute(
-            ".blockscout.bens.v1.ListDomainEventsRequest.sort",
-            "#[serde(default)]"
-        )
+use actix_prost_build::{ActixGenerator, GeneratorList}; use 
+    prost_build::{Config, ServiceGenerator}; use 
+    std::path::Path; //custom function to include custom generator
+fn compile
+    (  protos: &[impl AsRef<Path>],includes: &[impl AsRef<Path>], generator: Box<dyn
+     ServiceGenerator>,
+	 -> 
+    Result<(), Box<dyn std::error::Error>>  
+	{  let mut  config = 
+		Config::new(); config.service_generator
+		(generator).compile_well_known_types
+		().protoc_arg
+		("--openapiv2_out=swagger/").protoc_arg
+		("--openapiv2_opt").protoc_arg
+("grpc_api_configuration=proto
+/api_config_http.yaml,output_format=yaml,
+allow_merge=true,merge_file_name=bens,
+json_names_for_fields=false").bytes
+		([" . "]) .btree_map
+		     ( [ "." ] ) .type_attribute
+		("."), "),
+  #[actix_prost_macros::serde(rename_all=\"snake_case\")]")
+	.field_attribute(".blockscout.bens.v1.GetDomainRequest.only_active","#[serde(default)]").field_attribute(".blockscout.bens.v1.ListDomainEventsRequest.sort","#[serde(default)]")
         .field_attribute(
             ".blockscout.bens.v1.ListDomainEventsRequest.order",
-            "#[serde(default)]"
-        )
+            "#[serde(default)]").field_attribute( ".blockscout.bens.v1.LookupDomainNameRequest.sort", "#[serde(default)]" )
         .field_attribute(
-            ".blockscout.bens.v1.LookupDomainNameRequest.sort",
-            "#[serde(default)]"
-        )
-        .field_attribute(
-            ".blockscout.bens.v1.LookupDomainNameRequest.order",
-            "#[serde(default)]"
-        )
-        .field_attribute(
-            ".blockscout.bens.v1.LookupDomainNameRequest.only_active",
-            "#[serde(default)]"
-        )
-        .field_attribute(
-            ".blockscout.bens.v1.LookupAddressRequest.sort",
-            "#[serde(default)]"
-        )
-        .field_attribute(
-            ".blockscout.bens.v1.LookupAddressRequest.order",
-            "#[serde(default)]"
-        )
-        .field_attribute(
-            ".blockscout.bens.v1.LookupAddressRequest.only_active",
-            "#[serde(default)]"
-        )
-        ;
-    config.compile_protos(protos, includes)?;
-    Ok(())
-}
-
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+            ".blockscout.bens.v1.LookupDomainNameRequest.order","#[serde(default)]").field_attribute(".blockscout.bens.v1.LookupDomainNameRequest.only_active", "#[serde(default)]") .field_attribute
+	(".blockscout.bens.v1.LookupAddressRequest.sort",
+            "#[serde(default)]").field_attribute( 
+		".blockscout.bens.v1.LookupAddressRequest.order",
+            "#[serde(default)]" ).field_attribute(  ".blockscout.bens.v1.LookupAddressRequest.only_active", "#[serde(default)]"
+        );config.compile_protos
+	(protos,includes)?;Ok(())}  fn main() -> Result<(), Box<dyn std::error::Error>> {
     // We need to rebuild proto lib only if any of proto definitions
     // (or corresponding http mapping) has been changed.
     println!("cargo:rerun-if-changed=proto/");
